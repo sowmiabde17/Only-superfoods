@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <!-- Orange-to-red gradient for the "O" -->
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF8A00"/>
+      <stop offset="100%" stop-color="#E2311A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Bold "O" ring -->
+  <circle cx="15" cy="17" r="13" fill="url(#g)"/>
+  <circle cx="15" cy="17" r="7" fill="#ffffff"/>
+
+  <!-- Small leaf accent at top-right -->
+  <path
+    d="M24 3 C26 1, 30 2, 29 6 C28 8, 25 8, 24 6 Z"
+    fill="#A8D632"
+  />
+  <line x1="24" y1="6" x2="28" y2="3" stroke="#2B5A16" stroke-width="0.6" stroke-linecap="round"/>
+</svg>

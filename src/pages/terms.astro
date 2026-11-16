@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Terms & Conditions — Only Superfoods"
+  description="Terms and conditions governing orders, subscriptions, payments, and deliveries with Only Superfoods."
+>
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath="/terms" client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="mx-auto max-w-[680px] lg:max-w-[900px] lg:my-10 lg:rounded-3xl lg:border lg:border-[#E4E4DC] lg:bg-white lg:p-12 lg:shadow-2xs px-5 py-8 text-[#0B1F2E] pb-24 lg:pb-12">
+    <div class="border-b border-[#E4E4DC] pb-4 mb-6">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-[#2B5A16]">
+        LEGAL &amp; AGREEMENT
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold mt-1" style="font-family: 'Playfair Display', Georgia, serif;">
+        Terms &amp; Conditions
+      </h1>
+      <p class="text-xs text-[#4A5A52] mt-1">
+        Last updated: October 2026 • Only Superfoods (onlysuperfoods.in)
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-xs sm:text-[13px] leading-relaxed text-[#2A3B32]">
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          1. Introduction &amp; Acceptance
+        </h2>
+        <p>
+          Welcome to Only Superfoods ("we", "our", or "us"). By accessing our website (onlysuperfoods.in), using our progressive web tools, or placing orders via our platform or WhatsApp ordering service, you agree to be bound by these Terms and Conditions.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          2. Fresh Harvest Products &amp; Pricing
+        </h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>All prices listed on the site are in Indian Rupees (INR) and inclusive of all applicable local taxes.</li>
+          <li>Because our oyster mushrooms, microgreens, and country eggs are natural agricultural produce, minor natural variations in shape, size, and seasonal cluster formation may occur.</li>
+          <li>We reserve the right to revise product prices and promotional discounts at our discretion without prior notice.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          3. Online Payments &amp; Security
+        </h2>
+        <p>
+          Online payments are processed securely through RBI-authorized payment aggregators (Razorpay / UPI rails). Only Superfoods does not store your credit card, debit card, or net banking passwords. Pay on Delivery orders require payment upon arrival via cash or doorstep UPI scan.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          4. Subscriptions &amp; Recurring Deliveries
+        </h2>
+        <p>
+          Customers opting for recurring weekly harvest plans ("Box") authorize scheduled deliveries on their selected frequency (1x or 2x per week). You may modify, pause, or terminate recurring routines anytime without penalty with 12 hours advance notice.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          5. Governing Law &amp; Jurisdiction
+        </h2>
+        <p>
+          These Terms and any disputes arising out of the purchase of products shall be governed and construed in accordance with the laws of India, under the exclusive jurisdiction of the competent courts in Bengaluru, Karnataka.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          6. Contact Information
+        </h2>
+        <p>
+          For queries regarding these Terms, contact us at:<br/>
+          <strong>Only Superfoods</strong><br/>
+          Kadugodi, Whitefield, Bangalore 560067, Karnataka, India<br/>
+          WhatsApp / Support: +91 7019760360 • Email: support@onlysuperfoods.in
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+  <CartDrawer client:load />
+</Layout>
+

@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Cancellation & Refund Policy — Only Superfoods"
+  description="Our 100% Farm Fresh Harvest Guarantee. Easy cancellations and instant refunds for fresh mushrooms, microgreens, and produce."
+>
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath="/refunds" client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="mx-auto max-w-[680px] lg:max-w-[900px] lg:my-10 lg:rounded-3xl lg:border lg:border-[#E4E4DC] lg:bg-white lg:p-12 lg:shadow-2xs px-5 py-8 text-[#0B1F2E] pb-24 lg:pb-12">
+    <div class="border-b border-[#E4E4DC] pb-4 mb-6">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-[#2B5A16]">
+        CUSTOMER COMMITMENT
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold mt-1" style="font-family: 'Playfair Display', Georgia, serif;">
+        Cancellation &amp; Refund Policy
+      </h1>
+      <p class="text-xs text-[#4A5A52] mt-1">
+        Last updated: October 2026 • Only Superfoods, Kadugodi, Bangalore
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-xs sm:text-[13px] leading-relaxed text-[#2A3B32]">
+      <!-- Harvest Guarantee Callout -->
+      <div class="rounded-2xl border border-[#A8D632] bg-[#F7FAF0] p-4 text-[#2B5A16]">
+        <div class="flex items-center gap-2 font-bold text-sm">
+          <span>🌱</span>
+          <span>100% Farm Fresh Harvest Guarantee</span>
+        </div>
+        <p class="mt-1 text-xs text-[#4A5A52] leading-normal">
+          We harvest our gourmet oyster mushrooms and microgreens on the morning of delivery. If your harvest does not arrive fresh and tender, we will issue an instant refund or replace it free of charge.
+        </p>
+      </div>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          1. Order Cancellations
+        </h2>
+        <p>
+          Because our produce is freshly harvested at dawn to fulfill confirmed orders, cancellations are handled as follows:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>
+            <strong>Dawn Harvest Drops (7:00 AM – 10:00 AM):</strong> Cancellations must be requested before <strong>9:00 PM</strong> on the evening preceding the delivery day so our growers do not harvest excess produce at 5:30 AM dawn.
+          </li>
+          <li>
+            To cancel or reschedule an order, simply message our team on WhatsApp at <strong>+91 70197 60360</strong> with your Order ID (#OSF-XXXX).
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          2. Quality Guarantee &amp; Replacement Window
+        </h2>
+        <p>
+          As fresh food and unpasteurized artisanal beverages are perishable:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>
+            If any pack of mushrooms, microgreens, or eggs arrives damaged, wilted, or compromised during transit, please notify us within <strong>2 hours of delivery</strong>.
+          </li>
+          <li>
+            Send a quick photo of the issue to our WhatsApp team at <strong>+91 7019760360</strong>.
+          </li>
+          <li>
+            You may choose between an <strong>immediate full refund</strong> to your original payment method or a <strong>free fresh replacement</strong> delivered on the next morning harvest run.
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          3. Refund Process &amp; Timelines
+        </h2>
+        <p>
+          Once your refund is approved:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>
+            <strong>UPI Payments (GPay, PhonePe, Paytm):</strong> Typically credited back within <strong>2 to 4 hours</strong>.
+          </li>
+          <li>
+            <strong>Credit / Debit Cards &amp; Net Banking:</strong> Processed via Razorpay within <strong>24 to 48 business hours</strong>, subject to your card issuer's clearing cycle.
+          </li>
+          <li>
+            <strong>Cash on Delivery (Pay on Delivery):</strong> Refunded via instant UPI transfer to your provided phone number or UPI VPA.
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          4. Recurring Subscription Cancellations
+        </h2>
+        <p>
+          Weekly subscription routines carry zero lock-in contracts. You may pause, skip, or cancel your routine at any time with zero penalty by texting us on WhatsApp at +91 7019760360 at least 12 hours before your recurring harvest day.
+        </p>
+      </section>
+
+      <div class="border-t border-[#E4E4DC] pt-4 mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#FAF7F0] p-4 rounded-2xl">
+        <div>
+          <p class="font-bold text-xs text-[#0B1F2E]">Have a question about an order?</p>
+          <p class="text-[11px] text-[#4A5A52]">Our Kadugodi harvest team is here to assist daily from 7 AM to 8 PM.</p>
+        </div>
+        <a
+          href="https://wa.me/917019760360?text=Hi%20Only%20Superfoods%20team,%20I%20have%20a%20question%20about%20a%20refund"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-xl bg-[#25D366] px-4 py-2 text-xs font-bold text-white shrink-0 hover:bg-[#20BA59] transition-all"
+        >
+          Chat with Us on WhatsApp 💬
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+  <CartDrawer client:load />
+</Layout>
+

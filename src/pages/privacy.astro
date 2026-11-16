@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Privacy Policy — Only Superfoods"
+  description="How Only Superfoods collects, protects, and uses customer data for hyper-local morning harvest deliveries."
+>
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath="/privacy" client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="mx-auto max-w-[680px] lg:max-w-[900px] lg:my-10 lg:rounded-3xl lg:border lg:border-[#E4E4DC] lg:bg-white lg:p-12 lg:shadow-2xs px-5 py-8 text-[#0B1F2E] pb-24 lg:pb-12">
+    <div class="border-b border-[#E4E4DC] pb-4 mb-6">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-[#2B5A16]">
+        DATA PRIVACY &amp; SECURITY
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold mt-1" style="font-family: 'Playfair Display', Georgia, serif;">
+        Privacy Policy
+      </h1>
+      <p class="text-xs text-[#4A5A52] mt-1">
+        Last updated: October 2026 • Only Superfoods (onlysuperfoods.in)
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-xs sm:text-[13px] leading-relaxed text-[#2A3B32]">
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          1. Information We Collect
+        </h2>
+        <p>
+          We only collect information necessary to fulfill your fresh morning farm drops:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><strong>Contact Details:</strong> Your full name and 10-digit WhatsApp phone number to send delivery dispatch updates, harvest confirmations, and PIN verification.</li>
+          <li><strong>Delivery Address:</strong> Flat/apartment number, building name, society, street address, and optional GPS coordinates to navigate our delivery van directly to your doorstep.</li>
+          <li><strong>Order Details:</strong> Harvest products, quantities, delivery slot, and order history.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          2. How We Use Your Information
+        </h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>To harvest, pack, and deliver your farm orders accurately during your selected morning or evening slot.</li>
+          <li>To send order status receipts and customer care updates via WhatsApp.</li>
+          <li>To auto-fill your delivery details for 1-tap re-ordering so you don't have to re-enter your address every week.</li>
+          <li>We <strong>never sell, lease, or share</strong> your personal information with external marketing companies or data brokers.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          3. Payment Information Security
+        </h2>
+        <p>
+          We do not store or process payment card numbers or banking passwords on our servers. All digital transactions are handled directly through Razorpay's PCI-DSS compliant payment gateway and NPCI's official UPI infrastructure.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          4. Local Storage &amp; Cookies
+        </h2>
+        <p>
+          We utilize browser local storage (`localStorage`) to remember your active shopping bag, your logged-in WhatsApp session, and past order history locally on your device for fast performance.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          5. Contact Data Protection Officer
+        </h2>
+        <p>
+          If you have questions about our privacy practices, wish to update your details, or request deletion of your order records, please contact us at <strong>privacy@onlysuperfoods.in</strong> or via WhatsApp at <strong>+91 7019760360</strong>.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+  <CartDrawer client:load />
+</Layout>
+

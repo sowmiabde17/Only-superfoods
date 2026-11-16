@@ -1,0 +1,21 @@
+---
+/**
+ * src/pages/admin.astro
+ * Insider Desktop Operations Workbench & Stock Console
+ * Protected by master PIN gate.
+ * No public links anywhere in header, footer, or sitemaps.
+ */
+import Layout from '../layouts/Layout.astro';
+import AdminDashboard from '../components/admin/AdminDashboard.svelte';
+---
+
+<Layout
+  title="Admin Operations Desk — Only Superfoods"
+  description="Kadugodi Packhouse Stock Engine, Daily Harvest Yields & Dispatch Checklist"
+  noindex={true}
+>
+  <main class="min-h-screen bg-[#F4F6F0]">
+    <AdminDashboard client:only="svelte" />
+  </main>
+</Layout>
+

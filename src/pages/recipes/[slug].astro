@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.svelte';
+import BottomTabBar from '../../components/BottomTabBar.svelte';
+import Footer from '../../components/Footer.svelte';
+import CartDrawer from '../../components/CartDrawer.svelte';
+import WhatsAppCTA from '../../components/WhatsAppCTA.svelte';
+import RecipeDetail from '../../components/RecipeDetail.svelte';
+import DesktopHeader from '../../components/desktop/DesktopHeader.svelte';
+import DesktopRecipeDetail from '../../components/desktop/DesktopRecipeDetail.svelte';
+import DesktopFooter from '../../components/desktop/DesktopFooter.svelte';
+import { recipes } from '../../data/recipes.js';
+import { products } from '../../data/products.js';
+
+export function getStaticPaths() {
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.slug },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const product = products.find((p) => p.id === recipe.productId) || products[0];
+
+// Find related recipes
+const relatedRecipes = (recipe.relatedSlugs || [])
+  .map((slug) => recipes.find((r) => r.slug === slug))
+  .filter(Boolean);
+
+// Default to other recipes if fewer than 3 related
+if (relatedRecipes.length < 3) {
+  recipes.forEach((r) => {
+    if (r.slug !== recipe.slug && !relatedRecipes.some((rel) => rel?.slug === r.slug)) {
+      if (relatedRecipes.length < 3) relatedRecipes.push(r);
+    }
+  });
+}
+
+// Schema.org structured data for SEO rich snippets
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": recipe.title,
+  "description": recipe.subtitle || recipe.metaDescription,
+  "image": [recipe.thumbnail],
+  "cookTime": recipe.cookTime ? `PT${parseInt(recipe.cookTime)}M` : undefined,
+  "prepTime": recipe.prepTime ? `PT${parseInt(recipe.prepTime)}M` : undefined,
+  "recipeYield": `${recipe.servings} servings`,
+  "recipeIngredient": recipe.ingredients,
+  "recipeInstructions": recipe.steps.map((s, idx) => ({
+    "@type": "HowToStep",
+    "position": idx + 1,
+    "text": s,
+  })),
+};
+---
+
+<Layout
+  title={`${recipe.title} Recipe — Only Superfoods`}
+  description={recipe.subtitle || recipe.metaDescription}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  <!-- Mobile Experience (< 1024px) — Preserved Unchanged -->
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/recipes" client:media="(max-width: 1023px)" />
+
+    <main class="min-h-screen bg-[#FDFDFB] pb-[calc(76px+env(safe-area-inset-bottom,0px))]">
+      <RecipeDetail
+        client:media="(max-width: 1023px)"
+        recipe={recipe}
+        product={product}
+        relatedRecipes={relatedRecipes}
+      />
+    </main>
+
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+
+  <!-- Dedicated Desktop Experience (1024px+) -->
+  <div class="hidden lg:block min-h-screen bg-[#FAF7F0]">
+    <DesktopHeader currentPath="/recipes" client:media="(min-width: 1024px)" />
+    <main>
+      <DesktopRecipeDetail
+        client:media="(min-width: 1024px)"
+        recipe={recipe}
+        product={product}
+        relatedRecipes={relatedRecipes}
+      />
+    </main>
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+
+  <CartDrawer client:load />
+</Layout>
+

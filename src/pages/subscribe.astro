@@ -1,0 +1,51 @@
+---
+/**
+ * Only Superfoods — Dedicated Subscription Plan Page
+ * Matches Design Reference (Screen 1):
+ * - Header
+ * - SubscriptionPicker ("Fresh goodness, on repeat.")
+ * - Footer & Persistent Navigation (Bottom Tab Bar, Floating CTA, Cart Drawer)
+ */
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import SubscriptionPicker from '../components/SubscriptionPicker.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import FloatingDownArrow from '../components/FloatingDownArrow.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopSubscriptionSection from '../components/desktop/DesktopSubscriptionSection.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Subscription Plan — Fresh Goodness, On Repeat"
+  description="Set up your weekly harvest drop of organic oyster mushrooms, microgreens, kombucha, and desi eggs. Zero lock-in, pause anytime."
+>
+  <!-- Mobile Experience (< 1024px) — Preserved Unchanged -->
+  <div class="lg:hidden">
+    <Header client:media="(max-width: 1023px)" />
+
+    <main class="w-full bg-white pb-20">
+      <SubscriptionPicker client:media="(max-width: 1023px)" />
+    </main>
+
+    <Footer client:media="(max-width: 1023px)" />
+    <FloatingDownArrow client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+  </div>
+
+  <!-- Dedicated Desktop Experience (1024px+) -->
+  <div class="hidden lg:block min-h-screen bg-[#FAF7F0]">
+    <DesktopHeader currentPath="/subscribe" client:media="(min-width: 1024px)" />
+    <main>
+      <DesktopSubscriptionSection client:media="(min-width: 1024px)" />
+    </main>
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+
+  <CartDrawer client:load />
+</Layout>
+

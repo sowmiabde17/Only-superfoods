@@ -1,0 +1,72 @@
+{
+  "id": "/?source=pwa",
+  "name": "Only Superfoods — Farm Fresh Harvest",
+  "short_name": "OnlySuperfoods",
+  "description": "Gourmet oyster mushrooms, living microgreens, artisanal raw kombucha & free-range desi eggs delivered same-day in Whitefield & East Bengaluru.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#2B5A16",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["food", "shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Order Mushrooms",
+      "short_name": "Mushrooms",
+      "description": "Browse same-day harvested oyster mushrooms",
+      "url": "/#products",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Weekly Box",
+      "short_name": "Subscribe",
+      "description": "Customize your weekly harvest routine box",
+      "url": "/subscribe",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Superfood Recipes",
+      "short_name": "Recipes",
+      "description": "Explore chef recipes and cooking videos",
+      "url": "/recipes",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Fresh Bag",
+      "short_name": "Bag",
+      "description": "View active cart and checkout",
+      "url": "/cart",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Shipping & Delivery Policy — Only Superfoods"
+  description="Hyper-local morning harvest deliveries across Whitefield, Kadugodi, and East Bengaluru. Express delivery slots and coverage zones."
+>
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath="/shipping" client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="mx-auto max-w-[680px] lg:max-w-[900px] lg:my-10 lg:rounded-3xl lg:border lg:border-[#E4E4DC] lg:bg-white lg:p-12 lg:shadow-2xs px-5 py-8 text-[#0B1F2E] pb-24 lg:pb-12">
+    <div class="border-b border-[#E4E4DC] pb-4 mb-6">
+      <span class="text-[11px] font-bold uppercase tracking-widest text-[#2B5A16]">
+        HYPER-LOCAL OPERATIONS
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold mt-1" style="font-family: 'Playfair Display', Georgia, serif;">
+        Shipping &amp; Delivery Policy
+      </h1>
+      <p class="text-xs text-[#4A5A52] mt-1">
+        Last updated: October 2026 • Direct from Only Superfoods Kadugodi Farm, Bangalore
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-xs sm:text-[13px] leading-relaxed text-[#2A3B32]">
+      <!-- Delivery Promise -->
+      <div class="rounded-2xl border border-[#A8D632] bg-[#F7FAF0] p-4 text-[#2B5A16]">
+        <div class="flex items-center gap-2 font-bold text-sm">
+          <span>🚚</span>
+          <span>Harvested at Dawn, Delivered Same Day</span>
+        </div>
+        <p class="mt-1 text-xs text-[#4A5A52] leading-normal">
+          We operate a farm-to-table hyper-local logistics network. Our delivery vans start daily runs from our Kadugodi packhouse at 7:00 AM so you receive tender, nutrient-rich produce within hours of picking.
+        </p>
+      </div>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          1. Coverage Zones
+        </h2>
+        <p>
+          Only Superfoods currently operates across two primary delivery tiers in East Bengaluru:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>
+            <strong>Core Express Zone (Free Delivery):</strong> Kadugodi, Whitefield Core, Hoodi, ITPL, Belthur, Kumbena Agrahara, Seegehalli, Channasandra, Nagondanahalli, Varthur, Balagere, Mahadevapura, KR Puram, TC Palya, Ramamurthy Nagar, and Hoskote Town.
+          </li>
+          <li>
+            <strong>Extended 2 km Buffer Zone:</strong> Neighboring communities situated up to 2.0 km outside the perimeter (e.g. outer Budigere road, Kasturi Nagar, outer Marathahalli). Deliveries are fully serviced on standard morning runs.
+          </li>
+          <li>
+            <strong>Beyond 2 km:</strong> Bulk orders and special drops can be customized via WhatsApp coordination.
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          2. Delivery Slots &amp; Timings
+        </h2>
+        <p>
+          To ensure peak farm freshness and uninterrupted cold-chain integrity, all deliveries operate strictly during our morning dawn harvest window:
+        </p>
+        <div class="rounded-xl border border-[#2B5A16] bg-[#FAF7F0] p-3.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-[#2B5A16]">🌅 Dawn Harvest Drop (7:00 AM – 10:00 AM)</span>
+            <span class="rounded-full bg-[#E2F0D9] px-2 py-0.5 text-[10px] font-bold text-[#2B5A16]">Strict Morning Only</span>
+          </div>
+          <p class="text-[11px] text-[#4A5A52] mt-1.5 leading-relaxed">
+            Harvested fresh every single morning at 5:30 AM dawn in our Kadugodi indoor farm and delivered chilled directly to your doorstep. All orders placed before <strong>11:59 PM tonight</strong> are harvested at dawn and delivered next morning (7:00 AM – 10:00 AM). We do not operate evening drops so that your gourmet mushrooms and living microgreens reach your kitchen crisp, cold, and living within hours of harvest.
+          </p>
+        </div>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          3. Delivery Charges
+        </h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>
+            <strong>Standard Orders:</strong> We offer <strong>FREE delivery</strong> for all confirmed morning drops across our Core Express Zone.
+          </li>
+          <li>
+            <strong>Pay on Delivery (POD):</strong> A nominal convenience charge of ₹10 applies to orders placed with Cash/UPI on Arrival to support doorstep cash management.
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-sm font-bold text-[#0B1F2E] uppercase tracking-wide">
+          4. Contactless &amp; Apartment Deliveries
+        </h2>
+        <p>
+          For gated communities, tech parks, and apartment societies in Whitefield:
+        </p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Our delivery agents are familiar with MyGate, NoBrokerHood, and security gate check-in systems.</li>
+          <li>If you request contactless drop, the delivery agent will leave the fresh kraft bag at your doorstep or society tower lobby and send an instant delivery confirmation photo on WhatsApp.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+  <CartDrawer client:load />
+</Layout>
+

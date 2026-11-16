@@ -1,0 +1,179 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.svelte';
+import Footer from '../../components/Footer.svelte';
+import BottomTabBar from '../../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../../components/WhatsAppCTA.svelte';
+import CartDrawer from '../../components/CartDrawer.svelte';
+import DesktopHeader from '../../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../../components/desktop/DesktopFooter.svelte';
+import ProductDetailView from '../../components/ProductDetailView.svelte';
+import { products } from '../../data/products.js';
+
+export async function getStaticPaths() {
+  const sbUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const sbKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  let allProducts = products;
+
+  if (sbUrl && sbKey) {
+    try {
+      const res = await fetch(`${sbUrl}/rest/v1/products?select=*,product_pack_sizes(*)&is_active=eq.true`, {
+        headers: { apikey: sbKey, Authorization: `Bearer ${sbKey}` },
+      });
+      if (res.ok) {
+        const liveRows = await res.json();
+        if (Array.isArray(liveRows) && liveRows.length > 0) {
+          allProducts = liveRows.map((r: any) => {
+            const seed = products.find((p) => p.id === r.id) || ({} as any);
+            const packs = (r.product_pack_sizes || [])
+              .slice()
+              .sort((a: any, b: any) => (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0))
+              .map((pk: any) => ({ size: pk.size, price: Number(pk.price) }));
+            const finalPacks = packs.length > 0 ? packs : (seed.packSizes || [{ size: r.unit || '250 g', price: Number(r.price) || 100 }]);
+            return {
+              id: r.id,
+              name: r.name,
+              slug: r.slug,
+              category: r.category,
+              badge: r.badge || seed.badge || 'Fresh Harvest',
+              badgeType: r.badge_type || seed.badgeType || 'green',
+              shortDescription: r.short_description || seed.shortDescription || '',
+              longDescription: r.long_description || seed.longDescription || '',
+              price: Number(finalPacks[0]?.price ?? r.price),
+              unit: finalPacks[0]?.size || r.unit,
+              packSizes: finalPacks,
+              freshnessBadge: r.freshness_badge || seed.freshnessBadge,
+              shelfLife: r.shelf_life || seed.shelfLife,
+              storageGuide: r.storage_guide || seed.storageGuide,
+              culinaryTips: r.culinary_tips || seed.culinaryTips,
+              recipePairings: r.recipe_pairings || seed.recipePairings || [],
+              minOrder: r.min_order || seed.minOrder || 1,
+              image: r.image_url || seed.image || '/images/prod-grey-oyster.jpg',
+              nutritionFacts: r.nutrition_facts || seed.nutritionFacts || [],
+              whatsappMessage: r.whatsapp_message || seed.whatsappMessage,
+              stockStatus: 'IN_STOCK',
+              stockCount: 99,
+            };
+          });
+        }
+      }
+    } catch (_) {}
+  }
+
+  return allProducts.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+type ProductWithStock = (typeof products)[number] & {
+  stockStatus?: string;
+  stockCount?: number;
+};
+
+const { product: seedProduct } = Astro.props;
+
+// Fetch latest live price & stock from Supabase at build time
+let product: ProductWithStock = { ...seedProduct };
+try {
+  const sbUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const sbKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  if (sbUrl && sbKey) {
+    const res = await fetch(`${sbUrl}/rest/v1/products?id=eq.${encodeURIComponent(seedProduct.id)}&select=*`, {
+      headers: { apikey: sbKey, Authorization: `Bearer ${sbKey}` },
+    });
+    if (res.ok) {
+      const rows = await res.json();
+      if (Array.isArray(rows) && rows[0]) {
+        const live = rows[0];
+        const livePrice = Number(live.price ?? seedProduct.price);
+        const updatedPackSizes = Array.isArray(seedProduct.packSizes)
+          ? seedProduct.packSizes.map((pk, idx) =>
+              idx === 0 ? { ...pk, price: livePrice } : pk
+            )
+          : seedProduct.packSizes;
+        product = {
+          ...seedProduct,
+          name: live.name || seedProduct.name,
+          shortDescription: live.short_description || seedProduct.shortDescription,
+          price: livePrice,
+          packSizes: updatedPackSizes,
+          image: live.image_url || seedProduct.image,
+          stockStatus: live.stock_status || 'IN_STOCK',
+          stockCount: Number(live.stock_count ?? 99),
+        };
+      }
+    }
+  }
+} catch (e) {}
+
+const imageUrl = (product.image || '').startsWith('http')
+  ? product.image
+  : `https://onlysuperfoods.in${product.image}`;
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": product.name,
+  "image": [imageUrl],
+  "description": product.longDescription || product.shortDescription,
+  "sku": product.id,
+  "brand": {
+    "@type": "Brand",
+    "name": "Only Superfoods",
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": `https://onlysuperfoods.in/products/${product.slug}`,
+    "priceCurrency": "INR",
+    "price": product.price,
+    "availability":
+      product.stockStatus === 'OUT_OF_STOCK' || (product.stockCount !== undefined && product.stockCount <= 0)
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
+    "areaServed": "Whitefield, Kadugodi, East Bengaluru",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://onlysuperfoods.in/" },
+    { "@type": "ListItem", "position": 2, "name": product.category, "item": "https://onlysuperfoods.in/#desktop-catalog" },
+    { "@type": "ListItem", "position": 3, "name": product.name, "item": `https://onlysuperfoods.in/products/${product.slug}` },
+  ],
+};
+---
+
+<Layout
+  title={`${product.name} in Whitefield & East Bengaluru — Buy Fresh Harvest | Only Superfoods`}
+  description={`Order ${product.name} (${product.unit} at ₹${product.price}) harvested at 5:30 AM dawn in Kadugodi. Same-morning delivery in Whitefield, Hoodi, Varthur & East Bengaluru.`}
+  ogImage={product.image}
+  ogType="product"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath={`/products/${product.slug}`} client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="min-h-screen bg-[#FAF7F0] pb-24 lg:pb-12">
+    <ProductDetailView client:load product={product} />
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+
+  <CartDrawer client:load />
+</Layout>

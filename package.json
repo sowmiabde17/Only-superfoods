@@ -1,0 +1,29 @@
+{
+  "name": "only-superfoods",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/svelte": "^7.2.5",
+    "@astrojs/tailwind": "^6.0.0",
+    "@supabase/supabase-js": "^2.118.0",
+    "astro": "^5.4.2",
+    "gsap": "^3.12.7",
+    "leaflet": "^1.9.4",
+    "lenis": "^1.1.20",
+    "ogl": "^1.0.11",
+    "svelte": "^5.28.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "puppeteer-core": "^24.43.1",
+    "typescript": "^5.9.3"
+  }
+}

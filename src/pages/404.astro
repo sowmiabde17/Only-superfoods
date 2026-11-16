@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import { site } from '../data/site.js';
+---
+
+<Layout
+  title="Page Not Found — Only Superfoods"
+  description="Explore fresh morning-harvested oyster mushrooms, living microgreens, raw kombucha, and free-range desi eggs in Whitefield, Bangalore."
+  noindex={true}
+>
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopHeader currentPath="/404" client:media="(min-width: 1024px)" />
+  </div>
+
+  <main class="min-h-[65vh] bg-[#FAF7F0] flex items-center justify-center px-5 py-16">
+    <div class="mx-auto max-w-lg rounded-3xl border border-[#E4E4DC] bg-white p-8 sm:p-12 text-center shadow-xs space-y-5">
+      <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EBF5E4] text-3xl">
+        🍄
+      </div>
+      <div class="space-y-2">
+        <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#2B5A16]">
+          404 • Route Not Found
+        </span>
+        <h1
+          class="text-2xl sm:text-3xl font-bold text-[#0B1F2E]"
+          style="font-family: 'Playfair Display', Georgia, serif;"
+        >
+          This Patch Hasn’t Sprouted Yet
+        </h1>
+        <p class="text-xs sm:text-sm text-[#4A5A52] leading-relaxed">
+          The page you looked for may have moved. Browse today’s 5:30 AM dawn harvest or explore chef recipes from our Kadugodi farm.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a
+          href="/"
+          class="rounded-full bg-[#143922] hover:bg-[#2B5A16] px-6 py-3 text-xs font-bold text-white shadow-xs transition-colors press"
+        >
+          ← Back to Harvest Home
+        </a>
+        <a
+          href="/recipes"
+          class="rounded-full border border-[#E4E4DC] bg-[#FAF7F0] hover:border-[#2B5A16] px-5 py-3 text-xs font-bold text-[#0B1F2E] transition-colors"
+        >
+          Browse Recipes
+        </a>
+        <a
+          href={site.whatsapp.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full bg-[#25D366] hover:bg-[#1ebd5a] px-5 py-3 text-xs font-bold text-white transition-colors"
+        >
+          WhatsApp Order
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div class="lg:hidden">
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+  </div>
+  <div class="hidden lg:block">
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+  <CartDrawer client:load />
+</Layout>
+

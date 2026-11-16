@@ -1,0 +1,72 @@
+---
+/**
+ * /recipes — Fresh Produce Recipes Hub & Gallery
+ * Matches Design Reference:
+ * - Top header with Only Superfoods logo, search, and dynamic cart badge
+ * - "Simple Food. Big Benefits." hero banner with fresh oyster harvest
+ * - Circular category filter pills (All Recipes, Mushrooms, Microgreens, Kombucha, Desi Eggs)
+ * - 2-column Popular Recipes card grid with play overlay, duration pills, wishlist hearts, and metadata tags
+ */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.svelte';
+import BottomTabBar from '../../components/BottomTabBar.svelte';
+import Footer from '../../components/Footer.svelte';
+import CartDrawer from '../../components/CartDrawer.svelte';
+import WhatsAppCTA from '../../components/WhatsAppCTA.svelte';
+import RecipeHub from '../../components/RecipeHub.svelte';
+import DesktopHeader from '../../components/desktop/DesktopHeader.svelte';
+import DesktopRecipeHub from '../../components/desktop/DesktopRecipeHub.svelte';
+import DesktopFooter from '../../components/desktop/DesktopFooter.svelte';
+import { recipes } from '../../data/recipes.js';
+
+// Structured data for Google Rich Results
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": recipes.map((r) => ({
+    "@type": "Recipe",
+    "name": r.title,
+    "description": r.subtitle || r.metaDescription,
+    "image": [r.thumbnail],
+    "cookTime": r.cookTime ? `PT${parseInt(r.cookTime)}M` : undefined,
+    "prepTime": r.prepTime ? `PT${parseInt(r.prepTime)}M` : undefined,
+    "recipeYield": `${r.servings} servings`,
+    "recipeIngredient": r.ingredients,
+    "recipeInstructions": r.steps.map((s, idx) => ({
+      "@type": "HowToStep",
+      "position": idx + 1,
+      "text": s,
+    })),
+  })),
+};
+---
+
+<Layout
+  title="Fresh Produce Recipes — Only Superfoods"
+  description="Simple food. Big benefits. Easy, nutritious recipes made with our freshly harvested mushrooms, living microgreens, raw kombucha & free-range desi eggs."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+  <!-- Mobile Experience (< 1024px) — Preserved Unchanged -->
+  <div class="lg:hidden">
+    <Header client:media="(max-width: 1023px)" />
+
+    <main class="min-h-screen bg-white pb-[calc(76px+env(safe-area-inset-bottom,0px))]">
+      <RecipeHub client:media="(max-width: 1023px)" />
+    </main>
+
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+  </div>
+
+  <!-- Dedicated Desktop Experience (1024px+) -->
+  <div class="hidden lg:block min-h-screen bg-[#FAF7F0]">
+    <DesktopHeader currentPath="/recipes" client:media="(min-width: 1024px)" />
+    <main>
+      <DesktopRecipeHub client:media="(min-width: 1024px)" />
+    </main>
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+
+  <CartDrawer client:load />
+</Layout>

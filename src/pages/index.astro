@@ -1,0 +1,265 @@
+---
+/**
+ * Only Superfoods — Complete Redesigned Homepage
+ * High-Converting, Fresh Editorial Food Layout:
+ * 1. Minimal Header (Hamburger, Centered Logo, Search, Cart Badge)
+ * 2. CategoryBar ("Explore Our Farm Fresh Collection" with 5 Produce Avatars)
+ * 3. HeroBanners (Feature Card: Oyster Mushrooms with FARM FRESH badge + Split Microgreens & Kombucha)
+ * 4. BestSellersRow (Horizontal 3-card Best Sellers Teaser from Image 1)
+ * 5. ProductsHeroBanner ("Our Products" Panoramic Value Props from Image 2)
+ * 6. ProductGrid (Category Filter Row with "All" Grid Icon + Filters/Sort + 2-Col Interactive Cards)
+ * 7. DeliveryZoneChecker (Interactive Bangalore Delivery Map)
+ * 8. SubscriptionPicker (Routine Harvest Drop)
+ * 9. ContentTeaser (Chef Recipes)
+ * 10. Reviews (Customer Carousel)
+ * 11. Footer & Persistent Mobile UI (Bottom Tab Bar, Smart Floating CTA, Cart Drawer, Floating Down Arrow)
+ */
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import CategoryBar from '../components/CategoryBar.svelte';
+import HeroBanners from '../components/HeroBanners.svelte';
+import BestSellersRow from '../components/BestSellersRow.svelte';
+import ProductsHeroBanner from '../components/ProductsHeroBanner.svelte';
+import ProductGrid from '../components/ProductGrid.svelte';
+import DeliveryZoneChecker from '../components/DeliveryZoneChecker.svelte';
+import SubscriptionPicker from '../components/SubscriptionPicker.svelte';
+import ContentTeaser from '../components/ContentTeaser.svelte';
+import Reviews from '../components/Reviews.svelte';
+import Footer from '../components/Footer.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import WhatsAppCTA from '../components/WhatsAppCTA.svelte';
+import CartDrawer from '../components/CartDrawer.svelte';
+import FloatingDownArrow from '../components/FloatingDownArrow.svelte';
+import ScrollInit from '../components/ScrollInit.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopHero from '../components/desktop/DesktopHero.svelte';
+import DesktopBentoShowcase from '../components/desktop/DesktopBentoShowcase.svelte';
+import DesktopProductCatalog from '../components/desktop/DesktopProductCatalog.svelte';
+import DesktopFarmStory from '../components/desktop/DesktopFarmStory.svelte';
+import DesktopDeliveryZone from '../components/desktop/DesktopDeliveryZone.svelte';
+import DesktopSubscriptionSection from '../components/desktop/DesktopSubscriptionSection.svelte';
+import DesktopEditorialAndReviews from '../components/desktop/DesktopEditorialAndReviews.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+import { products } from '../data/products.js';
+import { reviews, getAverageRating } from '../data/reviews.js';
+import { faqs } from '../data/faqs.js';
+
+type CatalogProduct = (typeof products)[number] & {
+  stockStatus?: string;
+  stockCount?: number;
+};
+
+// Fetch live Supabase prices & availability at build time for accurate Search/AI JSON-LD
+let schemaProducts: CatalogProduct[] = products;
+try {
+  const sbUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const sbKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  if (sbUrl && sbKey) {
+    const res = await fetch(`${sbUrl}/rest/v1/products?select=*`, {
+      headers: { apikey: sbKey, Authorization: `Bearer ${sbKey}` },
+    });
+    if (res.ok) {
+      const liveRows = await res.json();
+      if (Array.isArray(liveRows) && liveRows.length > 0) {
+        schemaProducts = liveRows.map((r) => {
+          const seed = products.find((p) => p.id === r.id) || products[0];
+          return {
+            ...seed,
+            id: r.id,
+            name: r.name || seed.name,
+            slug: seed.slug || r.id,
+            shortDescription: r.short_description || seed.shortDescription,
+            price: Number(r.price ?? seed.price ?? 100),
+            image: r.image_url || seed.image,
+            stockStatus: r.stock_status || 'IN_STOCK',
+            stockCount: Number(r.stock_count ?? 99),
+          };
+        });
+      }
+    }
+  }
+} catch (e) {
+  // Fallback safely to static seed data
+}
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "FoodEstablishment",
+  "name": "Only Superfoods",
+  "logo": "https://onlysuperfoods.in/logo.png",
+  "image": "https://onlysuperfoods.in/og-share.jpg",
+  "@id": "https://onlysuperfoods.in",
+  "url": "https://onlysuperfoods.in",
+  "telephone": "+917019760360",
+  "priceRange": "₹₹",
+  "servesCuisine": "Gourmet Oyster Mushrooms, Living Microgreens, Artisanal Raw Kombucha, Free-Range Desi Eggs",
+  "sameAs": [
+    "https://www.instagram.com/the_paradise_mushrooms"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kadugodi, Whitefield",
+    "addressLocality": "Bangalore",
+    "addressRegion": "Karnataka",
+    "postalCode": "560067",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 12.9982,
+    "longitude": 77.7609
+  },
+  "areaServed": [
+    "Whitefield",
+    "Kadugodi",
+    "Hoodi",
+    "ITPL",
+    "Brookefield",
+    "Kundalahalli",
+    "AECS Layout",
+    "Seegehalli",
+    "Channasandra",
+    "Varthur",
+    "Balagere",
+    "Marathahalli",
+    "Mahadevapura",
+    "KR Puram",
+    "Ramamurthy Nagar",
+    "Hoskote"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": getAverageRating(),
+    "reviewCount": reviews.length,
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "07:00",
+      "closes": "19:00"
+    }
+  ]
+};
+
+const catalogSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": schemaProducts.map((p, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "item": {
+      "@type": "Product",
+      "name": p.name,
+      "image": (p.image || '').startsWith('http') ? p.image : `https://onlysuperfoods.in${p.image}`,
+      "description": p.shortDescription,
+      "url": `https://onlysuperfoods.in/products/${p.slug || p.id}`,
+      "brand": {
+        "@type": "Brand",
+        "name": "Only Superfoods"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://onlysuperfoods.in/products/${p.slug || p.id}`,
+        "priceCurrency": "INR",
+        "price": p.price,
+        "availability":
+          p.stockStatus === 'OUT_OF_STOCK' || (p.stockCount !== undefined && p.stockCount <= 0)
+            ? "https://schema.org/OutOfStock"
+            : "https://schema.org/InStock"
+      }
+    }
+  }))
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((item) => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a,
+    },
+  })),
+};
+---
+
+<Layout>
+  <!-- Schema.org LocalBusiness, Live Product Catalog & AEO FAQPage Rich Results -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(catalogSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- MOBILE EXPERIENCE (< 1024px) — Preserved Unchanged                -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div class="lg:hidden">
+    <!-- Lenis smooth momentum scroll engine -->
+    <ScrollInit client:media="(max-width: 1023px)" />
+
+    <!-- 1. Header with Hamburger, Centered Logo, Search & Cart -->
+    <Header client:media="(max-width: 1023px)" />
+
+    <main class="w-full bg-white pb-20">
+      <!-- 2. "Explore Our Farm Fresh Collection" Horizontal Category Circles (Image 1) -->
+      <CategoryBar client:media="(max-width: 1023px)" />
+
+      <!-- 3. Feature Hero Banners: Grey Oyster Mushrooms + Microgreens & Kombucha (Image 1) -->
+      <HeroBanners client:media="(max-width: 1023px)" />
+
+      <!-- 4. "Best Sellers" Horizontal Teaser Row (Image 1) -->
+      <BestSellersRow client:media="(max-width: 1023px)" />
+
+      <!-- 5. "Our Products" Panoramic Banner with 4 Value Props (Image 2) -->
+      <ProductsHeroBanner client:media="(max-width: 1023px)" />
+
+      <!-- 6. Full Produce Grid with Category Filter Row, Sort Bar & 2-Col Cards (Image 2) -->
+      <ProductGrid client:media="(max-width: 1023px)" />
+
+      <!-- 7. Delivery Zone Checker (Interactive Bangalore Map & Pincode Checker) -->
+      <DeliveryZoneChecker client:media="(max-width: 1023px)" />
+
+      <!-- 8. Redesigned Subscription Plan ("Fresh goodness, on repeat.") -->
+      <SubscriptionPicker client:media="(max-width: 1023px)" />
+
+      <!-- 9. Cook Something New (Chef Recipe Teasers) -->
+      <ContentTeaser client:media="(max-width: 1023px)" />
+
+      <!-- 10. Real Customer Reviews -->
+      <Reviews client:media="(max-width: 1023px)" />
+    </main>
+
+    <!-- 11. Footer -->
+    <Footer client:media="(max-width: 1023px)" />
+
+    <!-- Persistent Mobile UI -->
+    <FloatingDownArrow client:media="(max-width: 1023px)" />
+    <WhatsAppCTA client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- DEDICATED DESKTOP EXPERIENCE (1024px+)                           -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div class="hidden lg:block bg-[#FAF7F0]">
+    <DesktopHeader currentPath="/" client:media="(min-width: 1024px)" />
+
+    <main class="w-full">
+      <DesktopHero client:media="(min-width: 1024px)" />
+      <DesktopBentoShowcase client:media="(min-width: 1024px)" />
+      <DesktopProductCatalog client:media="(min-width: 1024px)" />
+      <DesktopFarmStory client:media="(min-width: 1024px)" />
+      <DesktopDeliveryZone client:media="(min-width: 1024px)" />
+      <DesktopSubscriptionSection client:media="(min-width: 1024px)" />
+      <DesktopEditorialAndReviews client:media="(min-width: 1024px)" />
+    </main>
+
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+
+  <CartDrawer client:load />
+</Layout>

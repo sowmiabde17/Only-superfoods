@@ -1,0 +1,46 @@
+---
+/**
+ * /cart — Farm Bag & 3-Step Checkout Page
+ * Matches Design Reference:
+ * - Screen 1: Your Fresh Bag (qty), Harvest Guarantee, item list, quantity pill, coupon code, order summary
+ * - Screen 2: Step 1 (Payment): UPI/Cards (Razorpay) vs Pay on Delivery
+ * - Screen 3: Step 2 (Delivery): Live GPS location autofill, Whitefield zones, preferred day, morning/evening slots
+ * - Step 3: All Set! Order receipt with 1-click WhatsApp dispatch
+ */
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.svelte';
+import BottomTabBar from '../components/BottomTabBar.svelte';
+import Footer from '../components/Footer.svelte';
+import CartCheckoutView from '../components/CartCheckoutView.svelte';
+import DesktopHeader from '../components/desktop/DesktopHeader.svelte';
+import DesktopCartCheckout from '../components/desktop/DesktopCartCheckout.svelte';
+import DesktopFooter from '../components/desktop/DesktopFooter.svelte';
+---
+
+<Layout
+  title="Your Fresh Bag — Only Superfoods"
+  description="Fresh, local and harvested for your chosen day. Fast and secure checkout with live location autofill and on-time delivery across Whitefield."
+  noindex={true}
+>
+  <!-- Mobile Experience (< 1024px) — Preserved Unchanged -->
+  <div class="lg:hidden">
+    <Header isSubPage={true} backUrl="/" client:media="(max-width: 1023px)" />
+
+    <main class="min-h-screen bg-white pb-[calc(76px+env(safe-area-inset-bottom,0px))]">
+      <CartCheckoutView client:media="(max-width: 1023px)" />
+    </main>
+
+    <Footer client:media="(max-width: 1023px)" />
+    <BottomTabBar client:media="(max-width: 1023px)" />
+  </div>
+
+  <!-- Dedicated Desktop Experience (1024px+) -->
+  <div class="hidden lg:block min-h-screen bg-[#FAF7F0]">
+    <DesktopHeader currentPath="/cart" client:media="(min-width: 1024px)" />
+    <main class="min-h-[70vh]">
+      <DesktopCartCheckout client:media="(min-width: 1024px)" />
+    </main>
+    <DesktopFooter client:media="(min-width: 1024px)" />
+  </div>
+</Layout>
+

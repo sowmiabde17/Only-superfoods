@@ -1,0 +1,109 @@
+/* ══════════════════════════════════════════════════
+   Only Superfoods — Global Styles
+   ══════════════════════════════════════════════════ */
+
+/* ── Google Fonts — Playfair Display & Caveat Script ──────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:wght@400;600;700;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets & defaults ───────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #4A5A52;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display headings */
+  h1,
+  h2,
+  h3 {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    color: #0B1F2E;
+    line-height: 1.15;
+  }
+
+  /* Accessible focus outline */
+  :focus-visible {
+    outline: 2px solid #A8D632;
+    outline-offset: 2px;
+  }
+
+  /* Prevent content from hiding behind the bottom tab bar */
+  .safe-bottom {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ── Utility classes ──────────────────────────────── */
+@layer utilities {
+  /* Organic blob clip-path masks for images */
+  .blob-mask-1 {
+    clip-path: polygon(
+      50% 0%,
+      80% 5%,
+      100% 25%,
+      95% 55%,
+      100% 80%,
+      75% 100%,
+      40% 95%,
+      10% 100%,
+      0% 70%,
+      5% 35%,
+      0% 10%,
+      25% 0%
+    );
+  }
+
+  .blob-mask-2 {
+    clip-path: polygon(
+      30% 0%,
+      70% 2%,
+      100% 15%,
+      98% 50%,
+      100% 85%,
+      65% 100%,
+      35% 98%,
+      0% 85%,
+      2% 50%,
+      0% 15%
+    );
+  }
+
+  .blob-mask-3 {
+    clip-path: ellipse(48% 50% at 50% 50%);
+  }
+
+  /* Button press micro-interaction */
+  .press {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .press:active {
+    transform: scale(0.96);
+  }
+
+  /* Orange-red gradient (logo / accent only) */
+  .gradient-accent {
+    background: linear-gradient(135deg, #FF8A00, #E2311A);
+  }
+
+  /* Hide scrollbar but keep scrolling */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
